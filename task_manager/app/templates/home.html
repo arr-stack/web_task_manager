@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Tasks Manager</title>
+</head>
+<body>
+    <header><h1>Welcome to Task Manager!</h1></header>
+    <br>
+    <form action='home/add-task' method="post">
+        <label for="task_1">Task name</label>
+        <input id="task_1" type='text' name="task">
+        <label for="check_1"></label>
+        <input type="hidden" name="check" value=false>
+        <input type="checkbox" id="check_1" name="check" value=true>
+        <button type="submit">Submit</button>
+    </form>
+    <main>
+     {% if tasks %}
+     {% for task in tasks %}
+    <ul>
+        <li>
+        <form action='home/check' method="post">
+            <label for="task_{{ task.id }}"> {{ task.task }}</label>
+            <input type="hidden" name="task_id" value="{{ task.id }}">
+            <input type="checkbox" id="task_{{ task.id }}" {% if task.completed %}checked{% endif %} name="task_id" value="{{ task.id }}"
+            onChange="this.form.submit()">
+        </form>
+        <form action='home/delete' method="post">
+                <button type="submit">DELETE</button>
+                <input type="hidden" name='task_id' value="{{ task.id }}">
+        </form>
+        </li>
+    </ul>
+     {% endfor %}
+    {% else %}
+     <p>No tasks found</p>
+    {% endif %}
+        </main>
+    <br>
+     <footer>{{ title }} - 2026</footer>
+</body>
+</html>
